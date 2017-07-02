@@ -1,6 +1,6 @@
 #include "impl.h"
 
-/** S-box configuration. */
+/** Substitution boxes. */
 static uint8_t s_box[8][64] = {
   {
     14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5,  9,  0,  7,
@@ -54,8 +54,8 @@ static uint8_t s_box[8][64] = {
 
 /** Look up a value in a S-box.
  *
- * @param[in] box  S-box
- * @param[in] byte 6-bit value
+ * @param[in] box substitution box
+ * @param[in] val 6-bit value
  *
  * @return 4-bit translated value
 **/
@@ -72,4 +72,36 @@ lookup(uint8_t* box, uint8_t val)
   y = (val & 0x1e) >> 1;
 
   return box[y * 16 + x];
+}
+
+/** Apply the pre-selected substitution boxes to the block.
+ *
+ * @param[in] block 48-bit data block
+ * @return 32-bit translated block
+**/
+uint64_t
+apply_s_box(uint64_t block)
+{
+  uint64_t res;
+  uint64_t mask;
+  uint8_t part[8];
+  uint8_t i;
+
+  /* Separate the block into 6-bit parts. */
+  mask = 0x3f; /* 0b111111 */
+  for (i = 0; i < 8; i++) {
+    part[i] = (block & mask) >> (i * 6);
+    mask <<= 6;
+  }
+
+  /* Apply the substitution to each part. */
+  for (i = 0; i < 8; i++)
+    part[i] = lookup(s_box[i], part[i]);
+
+  /* Merge the resulting 4-bit blocks together. */
+  res = 0;
+  for (i = 0; i < 8; i++)
+    res |= (uint64_t)(part[i] << (i * 4));
+
+  return res;
 }
