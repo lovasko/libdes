@@ -80,7 +80,7 @@ lookup(uint8_t* box, uint8_t val)
  * @return 32-bit translated block
 **/
 uint64_t
-apply_s_box(uint64_t block)
+apply_sbox(uint64_t block)
 {
   uint64_t res;
   uint64_t mask;
