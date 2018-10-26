@@ -1,5 +1,5 @@
 # libdes
-This library implements the Data Encryption Standard as a C89 library.
+Implementation of the Data Encryption Standard as a C99 library.
 
 ## Warning!
 Even though this implementation might be correct in the _pure_ sense, it is NOT
@@ -15,4 +15,4 @@ file. In case you need a different license, feel free to contact the
 author.
 
 ## Author
-Daniel Lovasko (daniel.lovasko@gmail.com)
+Daniel Lovasko <daniel.lovasko@gmail.com>
