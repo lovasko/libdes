@@ -60,7 +60,7 @@ static uint8_t s_box[8][64] = {
  * @return 4-bit translated value
 **/
 static uint8_t
-lookup(uint8_t* box, uint8_t val)
+lookup(const uint8_t* box, const uint8_t val)
 {
   uint8_t x;
   uint8_t y;
@@ -80,7 +80,7 @@ lookup(uint8_t* box, uint8_t val)
  * @return 32-bit translated block
 **/
 uint64_t
-apply_sbox(uint64_t block)
+apply_sbox(const uint64_t block)
 {
   uint64_t res;
   uint64_t mask;

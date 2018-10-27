@@ -1,13 +1,13 @@
 #include "impl.h"
 
-static uint8_t initial_perm[64] = {
+static const uint8_t initial_perm[64] = {
   57, 49, 41, 33, 25, 17,  9, 1, 59, 51, 43, 35, 27, 19, 11, 3,
   61, 53, 45, 37, 29, 21, 13, 5, 63, 55, 47, 39, 31, 23, 15, 7,
   56, 48, 40, 32, 24, 16,  8, 0, 58, 50, 42, 34, 26, 18, 10, 2,
   60, 52, 44, 36, 28, 20, 12, 4, 62, 54, 46, 38, 30, 22, 14, 6
 };
 
-static uint8_t final_perm[64] = {
+static const uint8_t final_perm[64] = {
   39, 7, 47, 15, 55, 23, 63, 31, 38, 6, 46, 14, 54, 22, 62, 30,
   37, 5, 45, 13, 53, 21, 61, 29, 36, 4, 44, 12, 52, 20, 60, 28,
   35, 3, 43, 11, 51, 19, 59, 27, 34, 2, 42, 10, 50, 18, 58, 26,
@@ -23,7 +23,7 @@ static uint8_t final_perm[64] = {
  * @return block after dispersion
 **/
 static uint64_t
-dbox(uint64_t blk, uint8_t* box, uint8_t len)
+dbox(const uint64_t blk, const uint8_t* box, const uint8_t len)
 {
   uint64_t res;
   uint64_t bit;
@@ -46,9 +46,9 @@ dbox(uint64_t blk, uint8_t* box, uint8_t len)
  * @return permutated data block
 **/
 uint64_t
-apply_initial_perm(uint64_t blk)
+apply_initial_perm(const uint64_t blk)
 {
-  return dbox(blk, initial_perm, 64);
+  return dbox(blk, initial_perm, sizeof(initial_perm));
 }
 
 /** Perform the final permutation on a data block.
@@ -59,7 +59,7 @@ apply_initial_perm(uint64_t blk)
  * @return permutated data block
 **/
 uint64_t
-apply_final_perm(uint64_t blk)
+apply_final_perm(const uint64_t blk)
 {
   return dbox(blk, final_perm, 64);
 }
