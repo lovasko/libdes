@@ -21,14 +21,12 @@ static const uint8_t final_perm[64] = {
   33, 1, 41,  9, 49, 17, 57, 25, 32, 0, 40,  8, 48, 16, 56, 24
 };
 
-/** Perform a dispersion on a data block.
- *
- * @param[in] blk data block
- * @param[in] box dispersion definition
- * @param[in] len length of the definition
- *
- * @return block after dispersion
-**/
+/// Perform a dispersion on a data block.
+/// @return block after dispersion
+///
+/// @param[in] blk data block
+/// @param[in] box dispersion definition
+/// @param[in] len length of the definition
 static uint64_t
 dbox(const uint64_t blk, const uint8_t* box, const uint8_t len)
 {
@@ -45,26 +43,22 @@ dbox(const uint64_t blk, const uint8_t* box, const uint8_t len)
   return res;
 }
 
-/** Perform the initial permutation on a data block.
- *
- * Composing this function with "final_perm" must yield identity.
- *
- * @param[in] blk data block
- * @return permutated data block
-**/
+/// Perform the initial permutation on a data block. Composing this function
+/// with "final_perm" must yield identity.
+/// @return permutated data block
+///
+/// @param[in] blk data block
 uint64_t
 apply_initial_perm(const uint64_t blk)
 {
   return dbox(blk, initial_perm, sizeof(initial_perm));
 }
 
-/** Perform the final permutation on a data block.
- *
- * Composing this function with "initial_perm" must yield identity.
- *
- * @param[in] blk data block
- * @return permutated data block
-**/
+/// Perform the final permutation on a data block. Composing this function
+/// with "initial_perm" must yield identity.
+/// @return permutated data block
+///
+/// @param[in] blk data block
 uint64_t
 apply_final_perm(const uint64_t blk)
 {
