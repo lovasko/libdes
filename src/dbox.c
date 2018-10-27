@@ -1,4 +1,11 @@
+// Copyright (c) 2018 Daniel Lovasko.
+// All Rights Reserved
+//
+// Distributed under the terms of the 2-clause BSD License. The full
+// license is in the file LICENSE, distributed as part of this software.
+
 #include "impl.h"
+
 
 static const uint8_t initial_perm[64] = {
   57, 49, 41, 33, 25, 17,  9, 1, 59, 51, 43, 35, 27, 19, 11, 3,
