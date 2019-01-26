@@ -51,7 +51,7 @@ dbox(const uint64_t blk, const uint8_t* box, const uint8_t len)
 uint64_t
 apply_initial_perm(const uint64_t blk)
 {
-  return dbox(blk, initial_perm, sizeof(initial_perm));
+  return dbox(blk, initial_perm, 64);
 }
 
 /// Perform the final permutation on a data block. Composing this function
