@@ -1,6 +1,6 @@
 #include "impl.h"
 
-/** Substitution boxes. */
+/// Substitution boxes.
 static uint8_t s_box[8][64] = {
   {
     14,  4, 13,  1,  2, 15, 11,  8,  3, 10,  6, 12,  5,  9,  0,  7,
@@ -52,33 +52,30 @@ static uint8_t s_box[8][64] = {
   }
 };
 
-/** Look up a value in a S-box.
- *
- * @param[in] box substitution box
- * @param[in] val 6-bit value
- *
- * @return 4-bit translated value
-**/
+/// Look up a value in a S-box.
+/// @return 4-bit translated value
+///
+/// @param[in] box substitution box
+/// @param[in] val 6-bit value
 static uint8_t
 lookup(const uint8_t* box, const uint8_t val)
 {
   uint8_t x;
   uint8_t y;
 
-  /* Extract the first and the sixth bit of the value. */
+  // Extract the first and the sixth bit of the value.
   x = (val & 0x1) + ((val & 0x20) >> 5);
 
-  /* Extract the second, third, fourth and fifth bit of the value. */
+  // Extract the second, third, fourth and fifth bit of the value.
   y = (val & 0x1e) >> 1;
 
   return box[y * 16 + x];
 }
 
-/** Apply the pre-selected substitution boxes to the block.
- *
- * @param[in] block 48-bit data block
- * @return 32-bit translated block
-**/
+/// Apply the pre-selected substitution boxes to the block.
+/// @return 32-bit translated block
+/// 
+/// @param[in] block 48-bit data block
 uint64_t
 apply_sbox(const uint64_t block)
 {
@@ -87,18 +84,18 @@ apply_sbox(const uint64_t block)
   uint8_t part[8];
   uint8_t i;
 
-  /* Separate the block into 6-bit parts. */
-  mask = 0x3f; /* 0b111111 */
+  // Separate the block into 6-bit parts.
+  mask = 0x3f; // 0b111111
   for (i = 0; i < 8; i++) {
     part[i] = (block & mask) >> (i * 6);
     mask <<= 6;
   }
 
-  /* Apply the substitution to each part. */
+  // Apply the substitution to each part.
   for (i = 0; i < 8; i++)
     part[i] = lookup(s_box[i], part[i]);
 
-  /* Merge the resulting 4-bit blocks together. */
+  // Merge the resulting 4-bit blocks together.
   res = 0;
   for (i = 0; i < 8; i++)
     res |= (uint64_t)(part[i] << (i * 4));
